@@ -17,7 +17,7 @@ class CustomEnv(gym.Env):
             stage=Stage.STAGE_HANENBOW, 
             player=Fighter.FIGHTER_MARIO,
             cpu=Fighter.FIGHTER_MARIO,
-            cpu_level=7,
+            cpu_level=9,
         )
         game_path = "/workspace/games/SSBU/Super Smash Bros Ultimate [v0].nsp"
         dlc_dir = "/workspace/games/SSBU/DLC/"
