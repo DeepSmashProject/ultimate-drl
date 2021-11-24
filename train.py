@@ -41,10 +41,10 @@ if __name__ == "__main__":
         config=train_config,
         local_dir=str(results_path),
         checkpoint_freq=10,
-        max_failures=2
+        #max_failures=1
     )
     print("Training automatically with Ray Tune")
+    ray.init()
     analysis = tune.run_experiments(experiment_spec)
-
     ray.shutdown()
     print("Finished", analysis)
