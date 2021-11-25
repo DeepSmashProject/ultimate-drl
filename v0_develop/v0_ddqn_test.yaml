@@ -1,6 +1,6 @@
-name: v0.0.0_base_ddqn
-env: base_env
-model: base_model
+name: v0.0.0_test_ddqn
+env: test_env
+model: test_model
 run: DQN
 stop:
     training_iteration: 100
@@ -9,10 +9,10 @@ stop:
 config:
     # overall
     framework: torch
-    num_gpus: 1
+    #num_gpus: 0.2
     #num_workers: 8
     # double q
-    double_q: true
+    double_q: false
     # dueling
     dueling: false
     hiddens: [] # model output => hidden layers => final output
@@ -35,7 +35,7 @@ config:
     prioritized_replay_beta_annealing_timesteps: 2000000
     # training
     target_network_update_freq: 8000
-    lr: .0001
+    lr: .0000625
     gamma: 0.99
     adam_epsilon: .00015
     learning_starts: 20000

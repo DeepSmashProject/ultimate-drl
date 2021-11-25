@@ -15,17 +15,19 @@ class BaseModel(TorchModelV2, nn.Module):
         TorchModelV2.__init__(self, obs_space, action_space, num_outputs,
                               model_config, name)
         nn.Module.__init__(self)
+        self.device = "cuda" if torch.cuda.is_available() else "cpu"
+        print("device: ", self.device)
         # (N, C, H, W)
         self.conv1 = nn.Conv2d(1, 32, 3, 1)
         self.conv2 = nn.Conv2d(32, 64, 3, 1)
         self.dropout1 = nn.Dropout(0.25)
         self.dropout2 = nn.Dropout(0.5)
-        self.fc1 = nn.Linear(102400, 128)
+        self.fc1 = nn.Linear(246016, 128)
         self.fc2 = nn.Linear(128, action_space.n)
 
     @override(ModelV2)
     def forward(self, input_dict, state, seq_lens):
-        x = input_dict["obs"].float()
+        x = input_dict["obs"].float().to(self.device)
         x = x.permute(0, 3, 1, 2)
         x = self.conv1(x)
         x = F.relu(x)
