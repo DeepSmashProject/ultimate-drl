@@ -1,0 +1,47 @@
+name: v0.0.0_base_ddqn
+env: base_env_with_damage
+model: base_model_with_damage
+run: DQN
+stop:
+    training_iteration: 100
+    #timesteps_total: 1000000
+    #episode_reward_mean: 200
+config:
+    # overall
+    framework: torch
+    num_gpus: 1
+    #num_workers: 8
+    # double q
+    double_q: true
+    # dueling
+    dueling: false
+    hiddens: [] # model output => hidden layers => final output
+    # distributional dqn
+    num_atoms: 1
+    v_min: -10
+    v_max: 10
+    # noisy
+    noisy: false
+    sigma0: 0.5
+    # n-step bootstrap
+    n_step: 1
+    # prioritized
+    buffer_size: 100000
+    prioritized_replay: true
+    prioritized_replay_eps: 0.5
+    prioritized_replay_alpha: 0.5
+    prioritized_replay_beta: 0.5
+    final_prioritized_replay_beta: 1.0
+    prioritized_replay_beta_annealing_timesteps: 2000000
+    # training
+    target_network_update_freq: 8000
+    lr: .0001
+    gamma: 0.99
+    adam_epsilon: .00015
+    learning_starts: 20000
+    rollout_fragment_length: 4
+    train_batch_size: 32
+    timesteps_per_iteration: 10000
+    exploration_config:
+      epsilon_timesteps: 200000
+      final_epsilon: 0.01
