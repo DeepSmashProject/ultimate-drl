@@ -77,7 +77,7 @@ class BaseEnv(gym.Env):
             "damage": Box(
                 low=0,
                 high=1,
-                shape=(2),
+                shape=(2,),
                 dtype='float'
             )
         })

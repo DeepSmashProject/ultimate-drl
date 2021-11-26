@@ -23,7 +23,7 @@ class BaseModel(TorchModelV2, nn.Module):
         self.conv3 = nn.Conv2d(64, 32, 3, 1)
         self.dropout1 = nn.Dropout(0.25)
         self.dropout2 = nn.Dropout(0.5)
-        self.fc1 = nn.Linear(246016, 128)
+        self.fc1 = nn.Linear(119072, 128)
         self.fc2 = nn.Linear(128, 32)
         self.fc3 = nn.Linear(34, action_space.n)
 
@@ -31,7 +31,7 @@ class BaseModel(TorchModelV2, nn.Module):
     @override(ModelV2)
     def forward(self, input_dict, state, seq_lens):
         x = input_dict["obs"]["observation"]
-        damage = input_dict["obs"]["damage"]
+        damage = input_dict["obs"]["damage"] # torch.Size([32, 2])
         x = x.float().to(self.device)
         x = x.permute(0, 3, 1, 2)
         x = self.conv1(x)
@@ -47,8 +47,8 @@ class BaseModel(TorchModelV2, nn.Module):
         x = F.relu(x)
         x = self.dropout2(x)
         x = self.fc2(x)
-        x = F.relu(x) # torch.Size([32])
-        x = torch.cat([x, damage]) # size 34
+        x = F.relu(x) # torch.Size([32, 32])
+        x = torch.cat([x, damage], dim=1) # torch.Size([32, 34])
         x = self.fc3(x)
         output = F.log_softmax(x, dim=1)
         # TODO: dueling net should be written here?

@@ -1,4 +1,4 @@
-name: v0.0.0_base_ddqn
+name: v0.0.0_base_damage_ddqn
 env: base_env_with_damage
 model: base_model_with_damage
 run: DQN
