@@ -46,5 +46,6 @@ if __name__ == "__main__":
     print("Training automatically with Ray Tune")
     ray.init()
     analysis = tune.run_experiments(experiment_spec)
+    #analysis = tune.run_experiments(experiment_spec, callbacks=[])
     ray.shutdown()
     print("Finished", analysis)

@@ -1,6 +1,12 @@
-name: v0.0.0_base_damage_rainbow
+name: v0.0.0_base_damage_rainbow_lstm
 env: base_env_with_damage
 model: base_model_with_damage_dueling
+model_config:
+    use_lstm: true
+    max_seq_len: 20
+    lstm_cell_size: 64
+    lstm_use_prev_action: true
+    lstm_use_prev_reward: true
 run: DQN
 stop:
     #training_iteration: 100
