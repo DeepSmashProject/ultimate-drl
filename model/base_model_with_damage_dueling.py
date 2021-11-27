@@ -18,6 +18,7 @@ class BaseModel(TorchModelV2, nn.Module):
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
         print("device: ", self.device)
         # (N, C, H, W)
+        self.action_space = action_space
         self.conv1 = nn.Conv2d(1, 32, 3, 1)
         self.conv2 = nn.Conv2d(32, 64, 3, 1)
         self.conv3 = nn.Conv2d(64, 32, 3, 1)
@@ -56,7 +57,7 @@ class BaseModel(TorchModelV2, nn.Module):
         V = self.fcV2(self.fcV1(x))
         A = self.fcA2(self.fcA1(x))
         averageA = A.mean(1).unsqueeze(1)
-        output = V.expand(-1, self.num_actions) + (A - averageA.expand(-1, self.num_actions))
+        output = V.expand(-1, self.action_space.n) + (A - averageA.expand(-1, self.action_space.n))
         #output = F.log_softmax(x, dim=1)
         # TODO: dueling net should be written here?
         return output, []
