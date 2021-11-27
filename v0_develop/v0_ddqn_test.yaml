@@ -1,6 +1,7 @@
 name: v0.0.0_test_ddqn
 env: test_env
 model: test_model
+model_config:
 run: DQN
 stop:
     training_iteration: 100

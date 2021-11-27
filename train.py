@@ -29,11 +29,11 @@ if __name__ == "__main__":
     model = import_module("model.{}".format(config['model'])).Model
     print(env, model)
 
+    model_config = config["model_config"]
+    model_config["custom_model"] = model
     train_config = config["config"]
     train_config["env"] = env
-    train_config["model"] = {
-        "custom_model": model,
-    }
+    train_config["model"] = model_config
     experiment_spec = Experiment(
         config["name"],
         run=config["run"],
