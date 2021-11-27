@@ -71,7 +71,7 @@ class BaseEnv(gym.Env):
             "observation": Box(
                 low=0,
                 high=255,
-                shape=(128, 128, 1),
+                shape=(84, 84, 1),
                 dtype='uint8'
             ),
             "damage": Box(
@@ -87,21 +87,21 @@ class BaseEnv(gym.Env):
         obs = self._preprocess(obs)
         observation = {
             "observation": obs,
-            "damage": info["damage"]
+            "damage": np.array([info["damage"][0]/150 if info["damage"][0]/150 < 1 else 1, info["damage"][1]/150 if info["damage"][1]/150 < 1 else 1])
         }
         return observation, reward, done, info
 
     def reset(self):
-        obs = self.env.reset()
+        obs = self.env.reset(without_reset=True)
         obs = self._preprocess(obs)
         observation = {
             "observation": obs,
-            "damage": [0,0]
+            "damage": np.array([0,0])
         }
         return observation
 
     def _preprocess(self, obs):
-        obs = cv2.resize(obs, (128, 128))
+        obs = cv2.resize(obs, (84, 84))
         obs = cv2.cvtColor(obs, cv2.COLOR_BGR2GRAY)
         obs = obs[:, :, np.newaxis]
         obs = obs.astype(np.uint8)

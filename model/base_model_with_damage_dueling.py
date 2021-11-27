@@ -22,10 +22,10 @@ class BaseModel(TorchModelV2, nn.Module):
         self.conv2 = nn.Conv2d(32, 64, 3, 1)
         self.conv3 = nn.Conv2d(64, 32, 3, 1)
         self.dropout1 = nn.Dropout(0.25)
-        self.dropout2 = nn.Dropout(0.5)
+        self.dropout2 = nn.Dropout(0.25)
         self.fc1 = nn.Linear(48672, 128)
-        self.fc2 = nn.Linear(128, 32)
-        self.fc3 = nn.Linear(34, action_space.n)
+        self.fc2 = nn.Linear(130, 64)
+        #self.fc3 = nn.Linear(34, action_space.n)
 
 
     @override(ModelV2)
@@ -45,13 +45,11 @@ class BaseModel(TorchModelV2, nn.Module):
         x = torch.flatten(x, 1)
         x = self.fc1(x)
         x = F.relu(x)
+        x = torch.cat([x, damage], dim=1) # torch.Size([32, 130])
         x = self.dropout2(x)
         x = self.fc2(x)
-        x = F.relu(x) # torch.Size([32, 32])
-        x = torch.cat([x, damage], dim=1) # torch.Size([32, 34])
-        x = self.fc3(x)
-        output = F.log_softmax(x, dim=1)
+        #output = F.log_softmax(x, dim=1)
         # TODO: dueling net should be written here?
-        return output, []
+        return x, []
 
 Model = BaseModel

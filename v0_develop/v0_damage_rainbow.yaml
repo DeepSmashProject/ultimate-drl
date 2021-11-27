@@ -1,6 +1,6 @@
-name: v0.0.0_base_damage_ddqn
+name: v0.0.0_base_damage_rainbow
 env: base_env_with_damage
-model: base_model_with_damage
+model: base_model_with_damage_dueling
 run: DQN
 stop:
     training_iteration: 100
@@ -14,27 +14,27 @@ config:
     # double q
     double_q: true
     # dueling
-    dueling: false
-    hiddens: [] # model output => hidden layers => final output
+    dueling: true
+    hiddens: [64] # model output => hidden layers => final output
     # distributional dqn
-    num_atoms: 1
-    v_min: -10
-    v_max: 10
+    num_atoms: 51
+    v_min: -20
+    v_max: 20
     # noisy
-    noisy: false
+    noisy: true
     sigma0: 0.5
     # n-step bootstrap
-    n_step: 1
+    n_step: 5
     # prioritized
     buffer_size: 100000
     prioritized_replay: true
-    prioritized_replay_eps: 0.5
-    prioritized_replay_alpha: 0.5
-    prioritized_replay_beta: 0.5
+    prioritized_replay_eps: 0.00001
+    prioritized_replay_alpha: 0.6
+    prioritized_replay_beta: 0.4
     final_prioritized_replay_beta: 1.0
-    prioritized_replay_beta_annealing_timesteps: 2000000
+    prioritized_replay_beta_annealing_timesteps: 50000
     # training
-    target_network_update_freq: 8000
+    target_network_update_freq: 5000
     lr: .00001
     gamma: 0.99
     adam_epsilon: .00015
@@ -43,5 +43,7 @@ config:
     train_batch_size: 32
     timesteps_per_iteration: 10000
     exploration_config:
-      epsilon_timesteps: 200000
-      final_epsilon: 0.01
+      type: EpsilonGreedy
+      epsilon_timesteps: 10000
+      initial_epsilon: 1.0
+      final_epsilon: 0.1
