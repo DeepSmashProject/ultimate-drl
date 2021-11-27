@@ -31,7 +31,7 @@ config:
     noisy: true
     sigma0: 0.5
     # n-step bootstrap
-    n_step: 5
+    n_step: 10
     # prioritized
     buffer_size: 100000
     prioritized_replay: true
