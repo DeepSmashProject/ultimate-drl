@@ -25,6 +25,10 @@ class BaseModel(TorchModelV2, nn.Module):
         self.dropout2 = nn.Dropout(0.25)
         self.fc1 = nn.Linear(48672, 128)
         self.fc2 = nn.Linear(130, 64)
+        self.fcV1 = nn.Linear(64, 32)
+        self.fcA1 = nn.Linear(64, 32)
+        self.fcV2 = nn.Linear(32, 1)
+        self.fcA2 = nn.Linear(32, action_space.n)
         #self.fc3 = nn.Linear(34, action_space.n)
 
 
@@ -48,8 +52,13 @@ class BaseModel(TorchModelV2, nn.Module):
         x = torch.cat([x, damage], dim=1) # torch.Size([32, 130])
         x = self.dropout2(x)
         x = self.fc2(x)
+
+        V = self.fcV2(self.fcV1(x))
+        A = self.fcA2(self.fcA1(x))
+        averageA = A.mean(1).unsqueeze(1)
+        output = V.expand(-1, self.num_actions) + (A - averageA.expand(-1, self.num_actions))
         #output = F.log_softmax(x, dim=1)
         # TODO: dueling net should be written here?
-        return x, []
+        return output, []
 
 Model = BaseModel

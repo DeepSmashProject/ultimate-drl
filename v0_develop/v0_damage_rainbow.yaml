@@ -14,8 +14,8 @@ config:
     # double q
     double_q: true
     # dueling
-    dueling: true
-    hiddens: [64] # model output => hidden layers => final output
+    dueling: false
+    #hiddens: [64] # model output => hidden layers => final output
     # distributional dqn
     num_atoms: 51
     v_min: -20
