@@ -109,6 +109,11 @@ class BaseEnv(gym.Env):
             self.smash_buffer.append(False)
         if self.smash_buffer.count(True) == len(self.smash_buffer):
             reward -= 0.1
+        # 1. add reward -0.1 when the players' action missed
+        if action in [Action.ACTION_RIGHT_SMASH, Action.ACTION_LEFT_SMASH, Action.ACTION_UP_SMASH, Action.ACTION_DOWN_SMASH]:
+            if info["diff_damage"][1] == 0:
+                reward -= 0.1
+        
         # if killed add +-1 reward
         reward = -1 if info["kill"][0] == True else reward
         reward = 1 if info["kill"][1] == True else reward
