@@ -95,6 +95,7 @@ class BaseEnv(gym.Env):
             "observation": obs,
             "damage": np.array([info["damage"][0]/150 if info["damage"][0]/150 < 1 else 1, info["damage"][1]/150 if info["damage"][1]/150 < 1 else 1])
         }
+        # print("reward: {}, info: {}, done: {}".format(reward, info, done))
         return observation, reward, done, info
 
     def _add_reward(self, reward, action, info):
