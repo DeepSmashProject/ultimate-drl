@@ -15,6 +15,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='PyTorch MNIST Example')
     parser.add_argument('-f', '--file', default="",
                         help='Config file path')
+    parser.add_argument('-r', '--restore', default=None,
+                        help='checkpoint file path')
     args = parser.parse_args()
     if not os.path.isfile(args.file):
         print("Error: argument '--file' is not found")
@@ -43,7 +45,7 @@ if __name__ == "__main__":
         config=train_config,
         local_dir=str(results_path),
         checkpoint_freq=10,
-        #restore="checkpoint-xxx"
+        restore=args.restore
         #max_failures=1
     )
     print("Training automatically with Ray Tune")
