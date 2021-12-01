@@ -98,6 +98,8 @@ class BaseEnv(gym.Env):
         return observation, reward, done, info
 
     def _add_reward(self, reward, action, info):
+        # reward fix to 0-1
+        reward = reward / 100 # 10% damage is 0.1 reward
         # 3. add reward +0.01 every time step.
         reward += 0.01
         # 2. add reward -0.1 when the player do smash action over 3 times
@@ -107,6 +109,9 @@ class BaseEnv(gym.Env):
             self.smash_buffer.append(False)
         if self.smash_buffer.count(True) == len(self.smash_buffer):
             reward -= 0.1
+        # if killed add +-1 reward
+        reward = -1 if info["kill"][0] == True else reward
+        reward = 1 if info["kill"][1] == True else reward
         return reward
 
     def reset(self):

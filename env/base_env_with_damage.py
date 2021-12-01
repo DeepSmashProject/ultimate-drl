@@ -84,6 +84,11 @@ class BaseEnv(gym.Env):
 
     def step(self, action_num):
         obs, reward, done, info = self.env.step(action_list[action_num])
+        # reward fix to 0-1
+        reward = reward / 100 # 10% damage is 0.1 reward
+        # if killed add +-1 reward
+        reward = -1 if info["kill"][0] == True else reward
+        reward = 1 if info["kill"][1] == True else reward
         obs = self._preprocess(obs)
         observation = {
             "observation": obs,
