@@ -27,6 +27,7 @@ if __name__ == "__main__":
     print(config)
     env = import_module("env.{}".format(config['env'])).Env
     model = import_module("model.{}".format(config['model'])).Model
+    callbacks = import_module("callbacks.{}".format(config['callbacks'])).Callbacks
     print(env, model)
 
     model_config = config["model_config"]
@@ -34,6 +35,7 @@ if __name__ == "__main__":
     train_config = config["config"]
     train_config["env"] = env
     train_config["model"] = model_config
+    train_config["callbacks"] = callbacks
     experiment_spec = Experiment(
         config["name"],
         run=config["run"],
@@ -41,6 +43,7 @@ if __name__ == "__main__":
         config=train_config,
         local_dir=str(results_path),
         checkpoint_freq=10,
+        #restore="checkpoint-xxx"
         #max_failures=1
     )
     print("Training automatically with Ray Tune")

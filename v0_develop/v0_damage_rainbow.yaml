@@ -1,7 +1,8 @@
 name: v0.0.0_base_damage_rainbow
 env: base_env_with_damage
 model: base_model_with_damage_dueling
-model_config:
+model_config: {}
+callbacks: base_model_callbacks
 run: DQN
 stop:
     #training_iteration: 100

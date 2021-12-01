@@ -6,6 +6,7 @@ from ray.rllib.env.env_context import EnvContext
 from gym.spaces import Discrete, Box, Dict
 import cv2
 import numpy as np
+from collections import deque
 ########################################
 # Trading environment that takes only 
 # one position and ends the episode 
@@ -71,7 +72,7 @@ class BaseEnv(gym.Env):
             "observation": Box(
                 low=0,
                 high=255,
-                shape=(84, 84, 1),
+                shape=(84, 84, 4),
                 dtype='uint8'
             ),
             "damage": Box(
@@ -81,6 +82,8 @@ class BaseEnv(gym.Env):
                 dtype='float'
             )
         })
+        self.p1_p_buffer = deque([], self.buffer_size) # position buffer
+        self.p2_p_buffer = deque([], self.buffer_size)
 
     def step(self, action_num):
         obs, reward, done, info = self.env.step(action_list[action_num])
@@ -155,7 +158,6 @@ class BaseEnv(gym.Env):
                 cnt = np.squeeze(cnt)
                 minX, maxX, minY, maxY = np.min(cnt[:, 0]), np.max(cnt[:, 0]), np.min(cnt[:, 1]), np.max(cnt[:, 1])
                 if minX < x and x < maxX and minY < y and y < maxY:
-                    print("test", len(np.array(cnt)), i, minX, minY, maxX, maxY)
                     out = np.zeros_like(img)
                     mask = cv2.drawContours(out, [cnt], -1, color=255, thickness=-1)
 
@@ -170,10 +172,11 @@ class BaseEnv(gym.Env):
         img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)[0]
 
         # 一番面積が大きい輪郭を選択する。
+        if len(contours) == 0:
+            return 0, 0
         max_cnt = max(contours, key=lambda x: cv2.contourArea(x))
         x = (min(max_cnt[:, :, 0]) + (max(max_cnt[:, :, 0])-min(max_cnt[:, :, 0]))/2)[0]
         y = (min(max_cnt[:, :, 1]) + (max(max_cnt[:, :, 1])-min(max_cnt[:, :, 1]))/2)[0]
-        print("X: {}, Y: {}".format(x, y))
         return x, y
 
 Env = BaseEnv

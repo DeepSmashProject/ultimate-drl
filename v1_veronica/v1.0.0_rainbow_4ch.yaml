@@ -1,7 +1,7 @@
 name: v1.0.0_base_rainbow_4ch
 env: v1_env_damage_4ch
 model: v1_model_with_damage_dueling_4ch
-model_config:
+model_config: {}
 run: DQN
 stop:
     #training_iteration: 100
