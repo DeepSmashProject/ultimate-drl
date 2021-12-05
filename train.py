@@ -9,6 +9,11 @@ from importlib import import_module
 import yaml
 from pathlib import Path
 import sys
+path = str(Path(os.path.dirname(__file__)).resolve())
+sys.path.append(path)
+path = str(Path(os.path.dirname(__file__)).joinpath("utils/yolov5").resolve())
+sys.path.append(path)
+print(sys.path, path)
 
 if __name__ == "__main__":
 

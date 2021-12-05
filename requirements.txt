@@ -3,3 +3,4 @@ ray[rllib]
 numpy
 gym
 pandas
+torchvision

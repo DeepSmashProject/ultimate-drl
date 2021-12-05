@@ -9,11 +9,15 @@ import cv2
 import torch
 import torch.backends.cudnn as cudnn
 import numpy as np
+FILE = Path(__file__).resolve()
+ROOT = FILE.parents[0]  # YOLOv5 root directory
+if str(ROOT) not in sys.path:
+    sys.path.append(str(ROOT))  # add ROOT to PATH
+ROOT = Path(os.path.relpath(ROOT, Path.cwd()))  # relative
 
-
-from models.common import DetectMultiBackend
-from utils.general import (check_img_size, non_max_suppression, scale_coords)
-from utils.augmentations import letterbox
+from utils.yolov5.models.common import DetectMultiBackend
+from utils.yolov5.utils.general import (check_img_size, non_max_suppression, scale_coords)
+from utils.yolov5.utils.augmentations import letterbox
 
 class Detector:
     def __init__(self) -> None:

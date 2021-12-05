@@ -7,7 +7,7 @@ from gym.spaces import Discrete, Box, Dict
 import cv2
 import numpy as np
 from collections import deque
-from utils.yolov5 import Detector
+from utils.yolov5.detector import Detector
 ########################################
 # Trading environment that takes only 
 # one position and ends the episode 
@@ -99,6 +99,7 @@ class BaseEnv(gym.Env):
             "observation": obs,
             "damage": np.array([info["damage"][0]/150 if info["damage"][0]/150 < 1 else 1, info["damage"][1]/150 if info["damage"][1]/150 < 1 else 1])
         }
+        print("reward: {}, done: {}, info: {}".format(reward, done, info))
         return observation, reward, done, info
 
     def reset(self):
