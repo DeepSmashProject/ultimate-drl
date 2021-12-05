@@ -44,7 +44,7 @@ action_list = [
     Action.ACTION_LEFT_DASH,
     Action.ACTION_RIGHT_WALK,
     Action.ACTION_LEFT_WALK,
-    Action.ACTION_CROUCH,
+    #Action.ACTION_CROUCH,
     #Action.ACTION_RIGHT_CRAWL,
     #Action.ACTION_LEFT_CRAWL,
     Action.ACTION_RIGHT_STICK,
