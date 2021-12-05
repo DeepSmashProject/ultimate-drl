@@ -1,0 +1,50 @@
+name: v1.0.0_base_4ch_rainbow
+env: v100_base_4ch_env
+model: v100_base_4ch_model
+model_config: {}
+callbacks: base_model_callbacks
+run: DQN
+stop:
+    #training_iteration: 100
+    #timesteps_total: 1000000
+    #episode_reward_mean: 200
+config:
+    # overall
+    framework: torch
+    num_gpus: 1
+    #num_workers: 8
+    # double q
+    double_q: true
+    # dueling
+    # dueling net is defined in model
+    dueling: false
+    hiddens: [] # model output => hidden layers => final output
+    # distributional dqn
+    num_atoms: 51
+    v_min: -20
+    v_max: 20
+    # noisy
+    noisy: true
+    sigma0: 0.5
+    # n-step bootstrap
+    n_step: 10
+    # prioritized
+    buffer_size: 10000
+    prioritized_replay: true
+    prioritized_replay_eps: 0.00001
+    prioritized_replay_alpha: 0.6
+    prioritized_replay_beta: 0.4
+    final_prioritized_replay_beta: 1.0
+    prioritized_replay_beta_annealing_timesteps: 5000
+    # training
+    target_network_update_freq: 500
+    lr: .00001
+    gamma: 0.99
+    learning_starts: 2000
+    train_batch_size: 32
+    timesteps_per_iteration: 1000
+    exploration_config:
+      type: EpsilonGreedy
+      epsilon_timesteps: 1000
+      initial_epsilon: 1.0
+      final_epsilon: 0.1
