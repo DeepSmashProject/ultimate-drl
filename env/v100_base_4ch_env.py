@@ -84,8 +84,6 @@ class BaseEnv(gym.Env):
                 dtype='float'
             )
         })
-        self.p1_p_buffer = deque([], self.buffer_size) # position buffer
-        self.p2_p_buffer = deque([], self.buffer_size)
 
     def step(self, action_num):
         obs, reward, done, info = self.env.step(action_list[action_num])
