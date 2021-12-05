@@ -97,7 +97,7 @@ class BaseEnv(gym.Env):
             "observation": obs,
             "damage": np.array([info["damage"][0]/150 if info["damage"][0]/150 < 1 else 1, info["damage"][1]/150 if info["damage"][1]/150 < 1 else 1])
         }
-        print("reward: {}, done: {}, info: {}".format(reward, done, info))
+        #print("reward: {}, done: {}, info: {}".format(reward, done, info))
         return observation, reward, done, info
 
     def reset(self):

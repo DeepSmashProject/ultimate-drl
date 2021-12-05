@@ -646,7 +646,6 @@ def non_max_suppression(prediction, conf_thres=0.25, iou_thres=0.45, classes=Non
     """
 
     nc = prediction.shape[2] - 5  # number of classes
-    print(conf_thres)
     xc = prediction[..., 4] > conf_thres  # candidates
 
     # Checks
