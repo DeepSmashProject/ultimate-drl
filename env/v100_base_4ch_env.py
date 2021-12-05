@@ -118,11 +118,11 @@ class BaseEnv(gym.Env):
         for r in results:
             xyxy = r["xyxy"]
             if r["cls"] == 0: # purple mario
-                player2_obs[xyxy[0]:xyxy[2], xyxy[1]:xyxy[3]] = 255
+                player2_obs[int(xyxy[0]):int(xyxy[2]), int(xyxy[1]):int(xyxy[3])] = 255
             elif r["cls"] == 1: # red mario
-                player1_obs[xyxy[0]:xyxy[2], xyxy[1]:xyxy[3]] = 255
+                player1_obs[int(xyxy[0]):int(xyxy[2]), int(xyxy[1]):int(xyxy[3])] = 255
             elif r["cls"] == 2: # stage
-                stage_obs[xyxy[0]:xyxy[2], xyxy[1]:xyxy[3]] = 255
+                stage_obs[int(xyxy[0]):int(xyxy[2]), int(xyxy[1]):int(xyxy[3])] = 255
             
         obs = np.stack([obs_gray, stage_obs, player1_obs, player2_obs], axis=2)
         obs = cv2.resize(obs, (84, 84)) # (84, 84 , 4)
