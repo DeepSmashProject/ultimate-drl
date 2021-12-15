@@ -71,8 +71,8 @@ class BaseEnv(gym.Env):
         width, height = 128, 128
         # 0,3,4,6,7
         server_address = self.get_server_address()
-        screen = Screen(fps=6, address="http://localhost:6000", width=width, height=height, grayscale=False)
-        controller = Controller(address="http://localhost:6000")
+        screen = Screen(fps=6, address=server_address, width=width, height=height, grayscale=False)
+        controller = Controller(address=server_address)
         self.env = UltimateEnv(screen, controller)
         self.action_space = Discrete(len(action_list))
         self.observation_space = Dict({
@@ -94,9 +94,13 @@ class BaseEnv(gym.Env):
     def get_server_address(self):
         server_list = ["http://192.168.207.230:6000", "http://192.168.207.233:6000", "http://192.168.207.234:6000", "http://192.168.207.236:6000", "http://192.168.207.237:6000"]
         for address in server_list:
+            print("try connection to {}".format(address))
             ok = register_to_server(address)
             if ok:
+                print("register address: {}".format(address))
                 return address
+            else:
+                print("cannot register address: {}".format(address))
         print("Error: all server address is registerd by other env")
         sys.exit(1)
 
