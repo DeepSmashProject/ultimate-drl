@@ -1,0 +1,1 @@
+docker build -t deepsmash/ultimate-server:latest . 

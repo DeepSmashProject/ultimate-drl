@@ -1,0 +1,23 @@
+version: '3'
+services:
+  ultimate-server:
+    tty: true
+    image: deepsmash/ultimate-server:latest
+    privileged: true
+    runtime: nvidia
+    container_name: ultimate-server
+    ports:
+      - "8081:8081" # novnc port
+      - "6006:6006" # tensorboard port
+    volumes:
+      - "/home/ruirui_nis/workspace/DeepSmashProject/ultimate-drl:/workspace/ul\
+        timate-drl"
+      - "/mnt/bigdata/00_students/ruirui_nis/DeepSmashProject/games:/workspace/\
+        games"
+      - "/mnt/bigdata/00_students/ruirui_nis/DeepSmashProject/keys:/root/.local\
+        /share/yuzu/keys"
+    environment:
+      - "RESOLUTION=1280x720"
+      - "VNCPASS=pass"
+      - "BUS_ID=13:0:0"
+      - "NOVNC_PORT=8081"
