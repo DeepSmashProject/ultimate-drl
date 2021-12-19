@@ -75,7 +75,7 @@ class BaseEnv(gym.Env):
         controller = Controller(address=server_address)
         self.env = UltimateEnv(screen, controller)
         self.action_space = Discrete(len(action_list))
-        self.observation_space = Dict({
+        '''self.observation_space = Dict({
             "observation": Box(
                 low=0,
                 high=255,
@@ -88,8 +88,13 @@ class BaseEnv(gym.Env):
                 shape=(2,),
                 dtype='float'
             )
-        })
-        self.smash_buffer = deque([], 3)
+        })'''
+        self.observation_space = Box(
+                low=0,
+                high=255,
+                shape=(width, height, 1),
+                dtype='uint8'
+            )
 
     def get_server_address(self):
         server_list = ["http://192.168.207.230:6000", "http://192.168.207.233:6000", "http://192.168.207.234:6000", "http://192.168.207.236:6000", "http://192.168.207.237:6000"]
@@ -107,27 +112,33 @@ class BaseEnv(gym.Env):
 
     def step(self, action_num):
         obs, reward, done, info = self.env.step(action_list[action_num])
+        obs = cv2.cvtColor(obs, cv2.COLOR_RGB2GRAY)
+        obs = obs[:, :, np.newaxis]
+        obs = obs.astype(np.float32) / 255
         # reward fix to 0-1
         reward = reward / 50 # 10% damage is 0.2 reward
         # if killed add +-1 reward
         reward = -1 if info["kill"][0] == True else reward
         reward = 1 if info["kill"][1] == True else reward
-        p1_damage = info["damage"][0]/150 if info["damage"][0]/150 < 1 else 1
-        p2_damage = info["damage"][1]/150 if info["damage"][1]/150 < 1 else 1
+        #p1_damage = info["damage"][0]/150 if info["damage"][0]/150 < 1 else 1
+        #p2_damage = info["damage"][1]/150 if info["damage"][1]/150 < 1 else 1
 
-        observation = {
-            "observation": obs,
-            "damage": np.array([p1_damage, p2_damage])
-        }
-        return observation, reward, done, info
+        #observation = {
+        #    "observation": np.array(obs),
+        #    "damage": np.array([p1_damage, p2_damage])
+        #}
+        return obs, reward, done, info
 
     def reset(self):
         obs = self.env.reset(without_reset=True)
-        observation = {
-            "observation": obs,
-            "damage": np.array([0,0])
-        }
-        return observation
+        obs = cv2.cvtColor(obs, cv2.COLOR_RGB2GRAY)
+        obs = obs[:, :, np.newaxis]
+        obs = obs.astype(np.float32) / 255
+        #observation = {
+        #    "observation": np.array(obs),
+        #    "damage": np.array([0,0])
+        #}
+        return obs
 
 
 Env = BaseEnv

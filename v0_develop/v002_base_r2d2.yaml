@@ -1,6 +1,6 @@
 name: v0.0.2_base_r2d2
 env: v002_base_env
-model: v002_base_model
+#model: v002_base_model
 model_config: {}
 callbacks: base_model_callbacks
 run: R2D2
@@ -30,7 +30,7 @@ config:
     # n-step bootstrap
     n_step: 10
     # prioritized
-    #buffer_size: 10000
+    buffer_size: 5000
     #prioritized_replay: true
     #prioritized_replay_eps: 0.00001
     #prioritized_replay_alpha: 0.6
@@ -45,9 +45,12 @@ config:
     train_batch_size: 32
     timesteps_per_iteration: 1000
     # R2D2 settings.
-    burn_in: 20
+    burn_in: 10
     zero_init_states: true
     model:
+        dim: 128
+        conv_filters: [[16, 3, 1], [32, 3, 1], [64, 3, 1]]
+        conv_activation: "relu"
         use_lstm: true
         lstm_cell_size: 64
         max_seq_len: 20

@@ -28,20 +28,23 @@ if __name__ == "__main__":
         sys.exit(1)
     results_path = Path(os.path.dirname(__file__)).joinpath("results").resolve()
 
+    print(args.file)
     with open(args.file, 'r') as yml:
-        config = yaml.load(yml)
+        config = yaml.safe_load(yml)
 
     print(config)
     env = import_module("env.{}".format(config['env'])).Env
-    model = import_module("model.{}".format(config['model'])).Model
     callbacks = import_module("callbacks.{}".format(config['callbacks'])).Callbacks
-    print(env, model)
+    print(env)
 
-    model_config = config["model_config"]
-    model_config["custom_model"] = model
     train_config = config["config"]
+    if "model_config" in config and "model" in config:
+        print("apply custom model")
+        model = import_module("model.{}".format(config['model'])).Model
+        model_config = config["model_config"]
+        model_config["custom_model"] = model
+        train_config["model"] = model_config
     train_config["env"] = env
-    train_config["model"] = model_config
     train_config["callbacks"] = callbacks
     experiment_spec = Experiment(
         config["name"],
