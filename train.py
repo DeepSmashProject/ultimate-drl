@@ -6,6 +6,7 @@ import ray
 from ray.tune import Experiment
 from ray import tune
 from importlib import import_module
+from yuzulib.client import unregister_to_server
 import yaml
 from pathlib import Path
 import sys
@@ -14,6 +15,16 @@ sys.path.append(path)
 path = str(Path(os.path.dirname(__file__)).joinpath("utils/yolov5").resolve())
 sys.path.append(path)
 print(sys.path, path)
+
+def unregister_server():
+    server_list = ["http://192.168.207.230:6000", "http://192.168.207.233:6000", "http://192.168.207.234:6000", "http://192.168.207.236:6000", "http://192.168.207.237:6000"]
+    for address in server_list:
+        print("try unregister from {}".format(address))
+        ok = unregister_to_server(address)
+        if ok:
+            print("unregister address: {}".format(address))
+        else:
+            print("cannot unregister address: {}".format(address))
 
 if __name__ == "__main__":
 
@@ -56,6 +67,8 @@ if __name__ == "__main__":
         restore=args.restore
         #max_failures=1
     )
+
+    unregister_server()
     print("Training automatically with Ray Tune")
     ray.init()
     analysis = tune.run_experiments(experiment_spec)
