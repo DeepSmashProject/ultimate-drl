@@ -135,6 +135,5 @@ Env = BaseEnv
 if __name__ == '__main__':
     env = BaseEnv({})
     obs = env.reset()
-    print(obs.shape, env.observation_space, env.action_space)
-    obs, _, _, _ = env.step(action_list[0])
-    print(obs.shape, obs)
+    print(obs["damage"], env.observation_space, env.action_space)
+    obs, _, _, _ = env.step(0)
