@@ -1,0 +1,1 @@
+cd .. && docker build -t deepsmash/ultimate-drl:latest -f docker/Dockerfile .

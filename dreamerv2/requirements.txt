@@ -1,0 +1,4 @@
+dreamerv2
+gym
+numpy
+opencv-python
