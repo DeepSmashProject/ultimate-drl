@@ -1,8 +1,8 @@
 import dreamerv2.api as dv2
-from .env import BaseEnv
+from env import BaseEnv
 
 config = dv2.defaults.update({
-    'logdir': '/workspace/dreamerv2/logdir/rpg/1',
+    'logdir': '/workspace/ultimate-drl/dreamerv2/logdir/ultimate/1',
     'log_every': 1e3,
     'train_every': 10,
     'prefill': 1e5,

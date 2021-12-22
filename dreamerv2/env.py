@@ -1,9 +1,8 @@
 import random
-import dreamerv2.api as dv2
 import gym
-from ultimate_gym import UltimateEnv, Screen
-from libultimate import Controller, Action, Fighter, Stage, TrainingMode
-from gym.spaces import Discrete, Box, Dict
+from ultimate_gym import UltimateEnv
+from yuzulib.game.ssbu import Action
+from gym.spaces import Discrete, Box
 import cv2
 import numpy as np
 # 29 action
@@ -53,18 +52,7 @@ action_list = [
 
 class BaseEnv(gym.Env):
     def __init__(self):
-        screen = Screen(fps=6)
-        controller = Controller()
-        training_mode = TrainingMode(
-            controller=controller,
-            stage=Stage.STAGE_HANENBOW, 
-            player=Fighter.FIGHTER_MARIO,
-            cpu=Fighter.FIGHTER_DONKY_CONG,
-            cpu_level=9,
-        )
-        game_path = "/workspace/games/SSBU/Super Smash Bros Ultimate [v0].nsp"
-        dlc_dir = "/workspace/games/SSBU/DLC/"
-        self.env = UltimateEnv(game_path, dlc_dir, screen, controller, training_mode, without_setup=True)
+        self.env = UltimateEnv(fps=6)
         self.action_space = Discrete(len(action_list))
         self.observation_space = Box(
                 low=0,
@@ -93,8 +81,8 @@ class BaseEnv(gym.Env):
     def _preprocess(self, obs):
         # to (256, 256) Gray
         obs = cv2.resize(obs, (256, 256))
-        obs = cv2.cvtColor(obs, cv2.COLOR_BGR2GRAY)
-        obs = obs[:, :, np.newaxis]
+        #obs = cv2.cvtColor(obs, cv2.COLOR_BGR2GRAY)
+        #obs = obs[:, :, np.newaxis]
         obs = obs.astype(np.uint8)
         return obs
 
@@ -102,7 +90,7 @@ if __name__ == '__main__':
     env = BaseEnv()
     obs = env.reset()
     done = False
-    while done:
+    while not done:
         action = random.randrange(len(action_list))
         obs, reward, done, info = env.step(action)
         print("obs: {}, reward: {}, done: {}, info: {}".format(obs.shape, reward, done, info))
