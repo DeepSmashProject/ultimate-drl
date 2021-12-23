@@ -57,7 +57,7 @@ class BaseEnv(gym.Env):
         self.observation_space = Box(
                 low=0,
                 high=255,
-                shape=(84, 84, 1),
+                shape=(84, 84, 3),
                 dtype='uint8'
             )
 
@@ -74,7 +74,7 @@ class BaseEnv(gym.Env):
         return obs, reward, done, info
 
     def reset(self):
-        obs = self.env.reset(without_reset=True)
+        obs = self.env.reset(without_reset=False)
         obs = self._preprocess(obs)
         return obs
 
