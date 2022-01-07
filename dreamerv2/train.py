@@ -6,7 +6,7 @@ config = dv2.defaults.update({
     'log_every': 1e3,
     'train_every': 10,
     'eval_every': 1e3,
-    'replay': {'capacity': 2e4, 'ongoing': False, 'minlen': 50, 'maxlen': 50, 'prioritize_ends': True},
+    'replay': {'capacity': 2e5, 'ongoing': False, 'minlen': 30, 'maxlen': 50, 'prioritize_ends': True},
     'prefill': 1e5,
     'actor_ent': 3e-3,
     'loss_scales.kl': 1.0,
@@ -16,3 +16,4 @@ env = BaseEnv()
 dv2.train(env, config)
 
 # REQUIRED: apt install ffmpeg
+# dreamerv2: line 122,  onstep to onepisode

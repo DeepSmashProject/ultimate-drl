@@ -20,6 +20,8 @@ action_list = [
     Action.ACTION_RIGHT_SPECIAL,
     Action.ACTION_LEFT_SPECIAL,
     Action.ACTION_UP_SPECIAL,
+    Action.ACTION_UP_RIGHT_SPECIAL,
+    Action.ACTION_UP_LEFT_SPECIAL,
     Action.ACTION_DOWN_SPECIAL,
     Action.ACTION_GRAB,
     Action.ACTION_SHIELD,
@@ -54,6 +56,9 @@ class BaseEnv(gym.Env):
     def __init__(self):
         self.env = UltimateEnv(fps=6)
         self.action_space = Discrete(len(action_list))
+        self.prev_damaged_player = None
+        self.p1_damage = 0
+        self.p2_damage = 0
         self.observation_space = Box(
                 low=0,
                 high=255,
@@ -66,9 +71,25 @@ class BaseEnv(gym.Env):
         obs, reward, done, info = self.env.step(action)
         # reward fix to 0-1
         reward = reward / 50 # 10% damage is 0.2 reward
-        # if killed add +-1 reward
-        reward = -1 if info["kill"][0] == True else reward
-        reward = 1 if info["kill"][1] == True else reward
+        # combo bonus
+        if info["diff_damage"][0] != 0: 
+            if self.prev_damaged_player == 0:
+                reward = reward * 0.8
+            self.prev_damaged_player = 0
+            self.p1_damage = info["damage"][0]
+        elif info["diff_damage"][1] != 0:
+            if self.prev_damaged_player == 1:
+                reward = reward * 1.2
+            self.prev_damaged_player = 1
+            self.p2_damage = info["damage"][1]
+        
+        # early killed bonus
+        if info["kill"][0]:
+            reward = -1
+            reward += ((self.p1_damage-100)/100)*0.5
+        if info["kill"][1]:
+            reward = 1
+            reward += ((100-self.p2_damage)/100)*0.5
         obs = self._preprocess(obs)
 
         return obs, reward, done, info
@@ -76,6 +97,9 @@ class BaseEnv(gym.Env):
     def reset(self):
         obs = self.env.reset(without_reset=False)
         obs = self._preprocess(obs)
+        self.prev_damaged_player = None
+        self.p1_damage = 0
+        self.p2_damage = 0
         return obs
 
     def _preprocess(self, obs):
