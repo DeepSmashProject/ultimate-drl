@@ -46,7 +46,10 @@ cd /workspace
 git clone https://github.com/danijar/dreamerv2.git
 vim dreamerv2/dreamerv2/api.py
 ```
-
+111行目
+```
+def train_step(train, worker): -> def train_step(ep):
+```
 122行目
 ```
 driver.on_step(train_step) -> driver.on_episode(train_step)
@@ -58,7 +61,12 @@ cd /workspace
 pip install -e dreamerv2
 ```
 
-### 5. dreamerv2の設定、実行
+### 5. ffmpegのinstall
+```
+apt install ffmpeg
+```
+
+### 6. dreamerv2の設定、実行
 ```
 cd ultimate-drl/dreamerv2
 vim train.py
@@ -67,7 +75,7 @@ vim train.py
 configの変更
 ```
 config = dv2.defaults.update({
-    'logdir': '/workspace/ultimate-drl/dreamerv2/logdir/ultimate/2022-02-23',
+    'logdir': '/workspace/ultimate-drl/dreamerv2/logdir/ultimate/2022-02-23',  <-日付に変更
     'log_every': 1e3,
     'train_every': 10,
     'train_steps': 1,
@@ -77,3 +85,14 @@ nds': True},
     'prefill': 1e4,
 }).parse_flags()
 ```
+
+実行
+```
+python3 train.py
+```
+
+
+# Memo
+
+### /ultimate/3
+- UP_RIGHT_SPECIAL, UP_LEFT_SPECIALを追加した
