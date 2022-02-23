@@ -74,7 +74,7 @@ class BaseEnv(gym.Env):
         # combo bonus
         if info["diff_damage"][0] != 0: 
             if self.prev_damaged_player == 0:
-                reward = reward * 0.8
+                reward = reward * 1.2
             self.prev_damaged_player = 0
             self.p1_damage = info["damage"][0]
         elif info["diff_damage"][1] != 0:
