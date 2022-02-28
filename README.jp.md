@@ -3,7 +3,7 @@
 ### 0. port 8081, 6006をつけて研究室サーバーに入る
 https://ruihirano.atlassian.net/wiki/spaces/ZENTAI/pages/384696321
 ```
-ssh -L 6006:192.168.207.237:6006 6007:192.168.207.237:6007 ruirui@133.6.254.20
+ssh -L 6006:192.168.207.237:6006 8081:192.168.207.237:8081 ruirui@133.6.254.20
 ```
 
 ### 1. yuzu_emuをbuild,起動する
@@ -29,6 +29,7 @@ pip install -e yuzulib -e ultimate-gym
 スマブラのホーム, トレーニングまでの起動
 ```
 cd yuzulib/scripts
+bash run_ssbu.sh
 bash move_to_home.sh
 bash move_to_training.sh
 ```
@@ -96,3 +97,9 @@ python3 train.py
 
 ### /ultimate/3
 - UP_RIGHT_SPECIAL, UP_LEFT_SPECIALを追加した
+
+### /ultimate/4
+- 2022/02/23~再び学習開始
+- rewardにコンボとearlykillボーナスを追加
+- 他は3と同じで3の続きから学習している
+
