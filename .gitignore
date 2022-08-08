@@ -113,3 +113,5 @@ results
 train_episodes
 events.out.tfevents*
 #develop.py
+
+logdir

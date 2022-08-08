@@ -5,6 +5,9 @@
 ssh -L 6006:xxx.xxx.xxx.xxx:6006 8081:xxx.xxx.xxx.xxx:8081 ruirui@xxx.xxx.xxx.xxx
 ```
 
+### 0. tmux上で作業する
+
+
 ### 1. yuzu_emuをbuild,起動する
 ```
 cd workspace
