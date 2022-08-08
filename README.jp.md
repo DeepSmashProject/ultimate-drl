@@ -2,11 +2,19 @@
 ## 起動方法
 ### 0. port 8081, 6006をつけてサーバーに入る
 ```
-ssh -L 6006:xxx.xxx.xxx.xxx:6006 8081:xxx.xxx.xxx.xxx:8081 ruirui@xxx.xxx.xxx.xxx
+ssh -L 6006:xxx.xxx.xxx.xxx:6006 -L 8081:xxx.xxx.xxx.xxx:8081 ruirui@xxx.xxx.xxx.xxx
+```
+
+tensorboard
+```
+cd ~/workspace/DeepSmashProject/ultimate-drl/dreamerv2/logdir
+tensorboard --logdir=./ --port 6006 --bind_all
 ```
 
 ### 0. tmux上で作業する
-
+```
+tmux new -s ultimate-rl
+```
 
 ### 1. yuzu_emuをbuild,起動する
 ```
@@ -66,6 +74,7 @@ pip install -e dreamerv2
 
 ### 5. ffmpegのinstall
 ```
+apt update
 apt install ffmpeg
 ```
 
@@ -94,6 +103,30 @@ nds': True},
 python3 train.py
 ```
 
+# Error
+
+### Tensorflow error
+
+```
+    _descriptor.FieldDescriptor(
+  File "/usr/local/lib/python3.8/dist-packages/google/protobuf/descriptor.py", line 560, in __new__
+    _message.Message._CheckCalledFromGeneratedFile()TypeError: Descriptors cannot not be created directly.
+If this call came from a _pb2.py file, your generated code is out of date and must be regenerated with protoc >= 3.19.0.If you cannot immediately regenerate your protos, some other possible workarounds are: 1. Downgrade the protobuf package to 3.20.x or lower.
+ 2. Set PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=python (but this will use pure-Python parsing and will be much slower).
+```
+
+```
+ImportError: cannot import name 'experimental' from 'tensorflow.keras.mixed_precision'
+```
+
+### 解決法
+```
+https://github.com/danijar/dreamerv2/blob/main/dreamerv2/common/nets.py
+from tensorflow.keras.mixed_precision import experimental as prec
+to
+import tensorflow.keras.mixed_precision as prec
+
+```
 
 # Memo
 
