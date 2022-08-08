@@ -1,9 +1,8 @@
 # 2022/2/23
 ## 起動方法
-### 0. port 8081, 6006をつけて研究室サーバーに入る
-https://ruihirano.atlassian.net/wiki/spaces/ZENTAI/pages/384696321
+### 0. port 8081, 6006をつけてサーバーに入る
 ```
-ssh -L 6006:192.168.207.237:6006 8081:192.168.207.237:8081 ruirui@133.6.254.20
+ssh -L 6006:xxx.xxx.xxx.xxx:6006 8081:xxx.xxx.xxx.xxx:8081 ruirui@xxx.xxx.xxx.xxx
 ```
 
 ### 1. yuzu_emuをbuild,起動する
@@ -102,4 +101,21 @@ python3 train.py
 - 2022/02/23~再び学習開始
 - rewardにコンボとearlykillボーナスを追加
 - 他は3と同じで3の続きから学習している
+- serverはosiris
 
+### /ultimate/20220228_clipping
+- 報酬を0,1にクリッピングしてためす。
+- serverはhorus
+
+### /ultimate/20220301_clipping_init_actor_critic
+- 報酬をクリッピングして、かつactor_criticの重みをはじめから学習した
+- 以前のに引っ張られて同じ動きしかしなかったため。
+
+
+
+
+```
+['Variable:0', 'Variable:0', 'dense_16/kernel:0', 'dense_16/bias:0', 'dense_17/kernel:0', 'dense_17/bias:0', 'dense_18/kernel:0', 'dense_18/bias:0', 'dense_19/kernel:0', 'dense_19/bias:0', 'dense_20/kernel:0', 'dense_20/bias:0', 'dense_11/kernel:0', 'dense_11/bias:0', 'dense_12/kernel:0', 'dense_12/bias:0', 'dense_13/kernel:0', 'dense_13/bias:0', 'dense_14/kernel:0', 'dense_14/bias:0', 'dense_15/kernel:0', 'dense_15/bias:0', 'dense_21/kernel:0', 'dense_21/bias:0', 'dense_22/kernel:0', 'dense_22/bias:0', 'dense_23/kernel:0', 'dense_23/bias:0', 'dense_24/kernel:0', 'dense_24/bias:0', 'dense_25/kernel:0', 'dense_25/bias:0', 'Variable:0', 'conv2d/kernel:0', 'conv2d/bias:0', 'conv2d_1/kernel:0', 'conv2d_1/bias:0', 'conv2d_2/kernel:0', 'conv2d_2/bias:0', 'conv2d_3/kernel:0', 'conv2d_3/bias:0', 'conv2d_transpose/kernel:0', 'conv2d_transpose/bias:0', 'conv2d_transpose_1/kernel:0', 'conv2d_transpose_1/bias:0', 'conv2d_transpose_2/kernel:0', 'conv2d_transpose_2/bias:0', 'conv2d_transpose_3/kernel:0', 'conv2d_transpose_3/bias:0', 'dense/kernel:0', 'dense/bias:0', 'dense_6/kernel:0', 'dense_6/bias:0', 'dense_7/kernel:0', 'dense_7/bias:0', 'dense_8/kernel:0', 'dense_8/bias:0', 'dense_9/kernel:0', 'dense_9/bias:0', 'dense_10/kernel:0', 'dense_10/bias:0', 'dense_1/kernel:0', 'dense_1/bias:0', 'dense_2/kernel:0', 'dense_2/bias:0', 'dense_3/kernel:0', 'dense_3/bias:0', 'dense_4/kernel:0', 'dense_4/bias:0', 'dense_5/kernel:0', 'dense_5/bias:0', 'dense/kernel:0', 'dense/bias:0', 'layer_normalization/gamma:0', 'layer_normalization/beta:0', 'dense_2/kernel:0', 'dense_2/bias:0', 'dense/kernel:0', 'dense/bias:0', 'dense_1/kernel:0', 'dense_1/bias:0', 'dense_1/kernel:0', 'dense_1/bias:0', 'dense/kernel:0', 'dense/bias:0']
+Skipping short episode of length 15.
+Episode has 15 steps and return -1.0.
+```
