@@ -1,8 +1,6 @@
 import datetime
 import pathlib
 import torch
-from libultimate import Action, UltimateEnv
-import cv2
 import numpy as np
 import os
 from libultimate import Console, UltimateController, Action, UltimateEnv
@@ -235,6 +233,7 @@ class Game(AbstractGame):
             Initial observation of the game.
         """
         obs = self.env.reset(without_reset=False)
+        obs = self._convert_obs(obs)
         return obs
 
     def close(self):
