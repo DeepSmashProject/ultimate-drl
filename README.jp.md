@@ -103,6 +103,21 @@ nds': True},
 python3 train.py
 ```
 
+### 7. muzeroの実行
+
+```
+git clone https://github.com/werner-duvaud/muzero-general.git
+cd muzero-general
+cp ssbu.py muzero-general/games
+pip install -r requirements.lock
+pip install aiohttp==3.7
+python3 muzero.py ssbu
+```
+
+```
+tensorboard --logdir ./results
+```
+
 # Error
 
 ### Tensorflow error
@@ -127,6 +142,21 @@ to
 import tensorflow.keras.mixed_precision as prec
 
 ```
+
+### ray memory error on muzero
+
+```
+More than 95% of the memory on node 
+Tip Use the ray memory command to list active objects in the cluster.
+set RAY_DISABLE_MEMORY_MONITOR=1
+```
+
+# How to retrain
+### Dreamerv2
+ディレクトリをコピーして、それを使用する
+cp result/1 result/2
+config logdir to result/2
+
 
 # Memo
 
@@ -155,3 +185,20 @@ import tensorflow.keras.mixed_precision as prec
 Skipping short episode of length 15.
 Episode has 15 steps and return -1.0.
 ```
+
+
+# Muzero
+
+### Horus
+- 1P: Donkey, 2P: Mario
+- results/ssbu/2022-08-08--16-28-15
+  - 一番最初にトレーニングしたもの(およそ1日)　ドンキー
+  - 700000step
+  - メモリエラーになったためreplaybuffer sizeを変更する必要がある
+- results/ssbu/2022-08-09--12-54-33
+  - replay buffer sizeを1e6から1e5に変更
+  - 同様にメモリエラーに
+  - 700k~1500K
+- results/ssbu/2022-08-10--10-xx-xx
+  - replay buffer sizeを1e5から1e4に変更
+  - 1500K~
